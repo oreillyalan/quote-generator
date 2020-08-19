@@ -5,17 +5,14 @@ const twitterBtn = document.getElementById('twitter');
 const newQuoteBtn = document.getElementById('new-quote');
 const loader = document.getElementById('loader');
 
-// Show loading
 
-function loading() {
+function showLoadingSpinner() {
     loader.hidden = false;
     quoteContainer.hidden = true;
 }
 
 
-// Hide Loading
-
-function complete(){
+function removeLoadingSpinner(){
     if (!loader.hidden){
     quoteContainer.hidden = false;
     loader.hidden = true;
@@ -29,7 +26,7 @@ async function getQuote() {
     const proxyUrl = 'https://nameless-meadow-30358.herokuapp.com/'
     const apiUrl = 'https://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en';
     try {
-        loading();
+        showLoadingSpinner();
         const response = await fetch(proxyUrl + apiUrl);
         const data = await response.json()
         //If author is blank, use placeholder 'Unknown'
@@ -46,7 +43,7 @@ async function getQuote() {
             quoteText.classList.remove('long-quote');
         }
         quoteText.innerText = data.quoteText
-        complete();
+        removeLoadingSpinner();
     } catch (error)
     {
         getQuote();
